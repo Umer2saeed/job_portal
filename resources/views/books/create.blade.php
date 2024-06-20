@@ -44,14 +44,14 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
-                                <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Title" name="title" id="title" />
+                                <input value="{{ old('title') }}" type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Title" name="title" id="title" />
                                 @error('title')
                                     <p class="invalid-feedback">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="author" class="form-label">Author</label>
-                                <input type="text" class="form-control @error('author') is-invalid @enderror" placeholder="Author"  name="author" id="author"/>
+                                <input value="{{ old('author') }}" type="text" class="form-control @error('author') is-invalid @enderror" placeholder="Author"  name="author" id="author"/>
                                 @error('author')
                                 <p class="invalid-feedback">{{ $message }}</p>
                                 @enderror
@@ -59,7 +59,7 @@
 
                             <div class="mb-3">
                                 <label for="author" class="form-label">Description</label>
-                                <textarea name="description" id="description" class="form-control" placeholder="Description" cols="30" rows="5"></textarea>
+                                <textarea name="description" id="description" class="form-control" placeholder="Description" cols="30" rows="5">{{ old('description') }}</textarea>
                             </div>
 
                             <div class="mb-3">
@@ -81,8 +81,6 @@
                         </form>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
