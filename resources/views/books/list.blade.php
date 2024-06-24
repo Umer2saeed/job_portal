@@ -4,32 +4,7 @@
     <div class="container">
         <div class="row my-5">
             <div class="col-md-3">
-                <div class="card border-0 shadow-lg">
-                    <div class="card-header  text-white">
-                        Welcome, {{ Auth::user()->name }}
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center mb-3">
-                            @if(Auth::user()->image != '')
-                                <img src="{{ asset('uploads/profile/thumb/'.Auth::user()->image) }}" class="img-fluid rounded-circle" alt="{{ Auth::user()->name }}">
-                            @else
-                                <img src="{{ asset('images/profile-img-1.jpg') }}" class="img-fluid rounded-circle" alt="Luna John">
-                            @endif
-                        </div>
-                        <div class="h5 text-center">
-                            <strong>{{ Auth::user()->name }}</strong>
-                            <p class="h6 mt-2 text-muted">5 Reviews</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card border-0 shadow-lg mt-3">
-                    <div class="card-header  text-white">
-                        Navigation
-                    </div>
-                    <div class="card-body sidebar">
-                        @include('layouts.sidebar')
-                    </div>
-                </div>
+                @include('layouts.sidebar')
             </div>
             <div class="col-md-9">
                 @include('layouts.message')
@@ -77,7 +52,7 @@
                                                 <a href="#" class="btn btn-success btn-sm"><i class="fa-regular fa-star"></i></a>
                                                 <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square"></i>
                                                 </a>
-                                                <a href="" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                                                <a href="#" onclick="deleteBook({{ $book->id }})" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -103,3 +78,25 @@
         </div>
     </div>
 @endsection
+
+@section('script')
+    <script>
+        function deleteBook(id) {
+            if(confirm("Are you sure you want to delete?"))
+            {
+               $.ajax({
+                   url: '{{ route("books.destroy") }}',
+                   type: 'delete',
+                   data: {id: id},
+                   headers: {
+                       'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                   },
+                   success: function (response){
+                       window.location.href = '{{ route('books.index') }}';
+                   }
+               });
+            }
+        }
+    </script>
+@endsection
+

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -135,9 +136,28 @@ class BookController extends Controller
         return redirect()->route('books.index')->with('success', 'Book updated successfully!');
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
+        $book = Book::find($request->id);
+        if($book == null)
+        {
+            session()->flash('error', 'Book not found');
+            return response()->json([
+                'status' => false,
+                'message' => 'Book not found'
+            ]);
+        }
+        else {
+            File::delete(public_path('uploads/books/'.$book->image));
+            File::delete(public_path('uploads/books/thumb/'.$book->image));
+            $book->delete();
 
+            session()->flash('success', 'Book deleted successfully');
+            return response()->json([
+                'status' => true,
+                'message' => 'Book deleted successfully'
+            ]);
+        }
     }
 
 }
