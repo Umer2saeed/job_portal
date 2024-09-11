@@ -57,7 +57,7 @@
                                     <option value="0" {{ ($book->status == 0 ? 'selected' : '') }}>Block</option>
                                 </select>
                             </div>
-                            <button class="btn btn-primary mt-2">Create</button>
+                            <button class="btn btn-primary mt-2">Update</button>
                         </form>
                     </div>
                 </div>

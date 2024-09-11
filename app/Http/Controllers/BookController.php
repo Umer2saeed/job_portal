@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -14,15 +13,15 @@ class BookController extends Controller
 {
     public function index(Request $request)
     {
-        $books = Book::orderBy('created_at', 'DESC');
+        $books = Book::withCount('reviews')->withSum('reviews', 'rating')->orderBy('created_at', 'DESC');
         if (!empty($request->keyword))
         {
             $books = $books->where('title', 'like', '%'.$request->keyword.'%')
                 ->orWhere('author', 'like', '%'.$request->keyword.'%');
-
         }
 
         $books = $books->paginate(10);
+//        dd($books);
         return view('books.list', [
             'books' => $books
         ]);

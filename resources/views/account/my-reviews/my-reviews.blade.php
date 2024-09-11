@@ -56,7 +56,6 @@
                             @endif
 
                             </tbody>
-                            </thead>
                         </table>
                         {{ $reviews->links() }}
                     </div>
